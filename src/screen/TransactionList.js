@@ -13,7 +13,7 @@ import {Color} from '../constant';
 
 const styles = StyleSheet.create({
   container: {margin: 8},
-  childContainer: {paddingBottom: 60},
+  listContentContainer: {paddingBottom: 100},
   searchContainer: {marginBottom: 8},
   loading: {flex: 1},
   errorButtonContainer: {
@@ -135,7 +135,7 @@ export default TransactionList = () => {
         />
       )}
       {status === 'success' && (
-        <View style={styles.childContainer}>
+        <View>
           <SortContext.Provider value={{type: stateReducer.type, dispatch}}>
             <SearchForm
               containerStyle={styles.searchContainer}
@@ -143,7 +143,11 @@ export default TransactionList = () => {
               onChangeText={onSearch}
             />
           </SortContext.Provider>
-          <FlatList data={stateReducer.data} renderItem={renderItem} />
+          <FlatList
+            contentContainerStyle={styles.listContentContainer}
+            data={stateReducer.data}
+            renderItem={renderItem}
+          />
         </View>
       )}
       {status === 'error' && (
