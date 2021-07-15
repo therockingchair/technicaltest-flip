@@ -31,10 +31,10 @@ node 12.13.0 - Xcode 12.2 - Android Studio 4.0
 
 ### Run instructions for Android:
 
-• Have an Android emulator running (quickest way to get started), or a device connected.
-• `yarn android`
+- Have an Android emulator or a device connected.
+- `yarn android`
 
 ### Run instructions for iOS:
 
-• `cd ios && pod install`
-• `yarn ios`
+- `cd ios && pod install`
+- `yarn ios`
