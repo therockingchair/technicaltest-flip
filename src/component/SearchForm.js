@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, Text} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import {SortModal} from '.';
 
 const styles = StyleSheet.create({
@@ -11,7 +11,10 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'space-between',
   },
-  input: {},
+  input: {
+    flex: 1,
+    marginRight: 12,
+  },
 });
 
 export default SearchForm = ({containerStyle, placeholder, onChangeText}) => {

@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useCallback, memo, useMemo} from 'react';
 import {View, Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text, RadioButton} from '.';
 import {Color} from '../constant';
@@ -51,57 +51,68 @@ const styles = StyleSheet.create({
   },
 });
 
-const SortType = ({onPress, type, active}) => {
+const SortType = memo(({onPress, type, active}) => {
   return (
     <TouchableOpacity style={styles.sortTypeContainer} onPress={onPress}>
       <RadioButton active={active} />
       <Text.L style={styles.sortTypeText}>{type}</Text.L>
     </TouchableOpacity>
   );
-};
+});
 
-const PopUpModal = ({visible, onClose}) => {
+const ModalContainer = ({visible, onClose}) => {
   const {type, dispatch} = useContext(SortContext);
 
-  const onAscendingName = () => dispatch({type: 'ascending name'});
-  const onDescendingName = () => dispatch({type: 'descending name'});
-  const onLatestDate = () => dispatch({type: 'latest'});
-  const onOldestDate = () => dispatch({type: 'oldest'});
+  const onAscendingName = useCallback(
+    () => dispatch({type: 'ascending name'}),
+    [],
+  );
+  const onDescendingName = useCallback(
+    () => dispatch({type: 'descending name'}),
+    [],
+  );
+  const onNewestDate = useCallback(() => dispatch({type: 'newest'}), []);
+  const onOldestDate = useCallback(() => dispatch({type: 'oldest'}), []);
 
   return (
     <Modal transparent visible={visible}>
-      <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
-          <SortType
-            type="Nama A-Z"
-            active={type === 'ascending name'}
-            onPress={onAscendingName}
-          />
-          <SortType
-            type="Nama Z-A"
-            active={type === 'descending name'}
-            onPress={onDescendingName}
-          />
-          <SortType
-            type="Tanggal Terbaru"
-            active={type === 'latest'}
-            onPress={onLatestDate}
-          />
-          <SortType
-            type="Tanggal Terlama"
-            active={type === 'oldest'}
-            onPress={onOldestDate}
-          />
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text.L style={styles.closeText}>Tutup</Text.L>
-          </TouchableOpacity>
-        </View>
-      </View>
+      {useMemo(
+        () => (
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <SortType
+                type="Nama A-Z"
+                active={type === 'ascending name'}
+                onPress={onAscendingName}
+              />
+              <SortType
+                type="Nama Z-A"
+                active={type === 'descending name'}
+                onPress={onDescendingName}
+              />
+              <SortType
+                type="Tanggal Terbaru"
+                active={type === 'newest'}
+                onPress={onNewestDate}
+              />
+              <SortType
+                type="Tanggal Terlama"
+                active={type === 'oldest'}
+                onPress={onOldestDate}
+              />
+              <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                <Text.L style={styles.closeText}>Tutup</Text.L>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ),
+        [type],
+      )}
     </Modal>
   );
 };
 
-export default SortModal = () => {
+export default SortModal = memo(() => {
   const [visible, setVisible] = useState(false);
 
   const onToggle = () => setVisible(prevState => !prevState);
@@ -111,7 +122,7 @@ export default SortModal = () => {
       <TouchableOpacity onPress={onToggle}>
         <Text.M style={styles.sortText}>Urutkan</Text.M>
       </TouchableOpacity>
-      <PopUpModal visible={visible} onClose={onToggle} />
+      <ModalContainer visible={visible} onClose={onToggle} />
     </View>
   );
-};
+});

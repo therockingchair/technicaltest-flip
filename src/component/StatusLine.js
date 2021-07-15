@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Text from './Text';
 import StatusType from '../constant/StatusType';
 import Color from '../constant/Color';
 

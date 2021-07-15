@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
 export default TransactionItem = ({item}) => {
   const navigation = useNavigation();
 
-  const amount = CommonUtil.amount(item.amount);
-  const date = CommonUtil.date(item.created_at);
-
   const goToDetail = () =>
     navigation.navigate('TransactionDetail', {data: item});
+
+  const amount = CommonUtil.amount(item.amount);
+  const date = CommonUtil.date(item.created_at);
 
   return (
     <TouchableOpacity onPress={goToDetail} style={styles.container}>
