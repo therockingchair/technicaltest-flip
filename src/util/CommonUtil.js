@@ -6,17 +6,10 @@ export default {
       year: 'numeric',
     }),
   amount: amount =>
-    new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-    })
-      .format(amount)
+    amount
+      .toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+      })
       .replace(/\D[0-9][0-9]$/, ''),
-  extractValues: obj => {
-    const values = [];
-    for (var key in obj) {
-      values.push(obj[key]);
-    }
-    return values;
-  },
 };
